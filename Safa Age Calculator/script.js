@@ -357,6 +357,13 @@
     setDefaults();
     initFaq();
     bindEvents();
+
+    // Register Service Worker for PWA (Play Store)
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw_v2.js').catch((err) => {
+        console.error('Service Worker registration failed:', err);
+      });
+    }
   }
 
   if (document.readyState === 'loading') {
