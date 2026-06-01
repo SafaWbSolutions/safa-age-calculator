@@ -162,56 +162,63 @@
   let currentDob = null;
 
   function doCalculate() {
-    const dobVal = els.dobInput.value;
-    const asOfVal = els.asOfInput.value || new Date().toISOString().split('T')[0];
+    try {
+      const dobVal = els.dobInput.value;
+      const asOfVal = els.asOfInput.value;
 
-    if (!dobVal) {
-      showError('Please enter your date of birth.');
-      return;
+      if (!dobVal) {
+        showError('Please enter your date of birth.');
+        return;
+      }
+
+      const result = calculateAge(dobVal, asOfVal);
+      if (!result) {
+        showError('Invalid dates. Birth date must be before the "as of" date.');
+        return;
+      }
+
+      els.errorMsg.style.display = 'none';
+      els.resultsSection.classList.add('active');
+      document.getElementById('stats-section').classList.add('active');
+
+      $('#age-years').textContent = result.years;
+      $('#age-months').textContent = result.months;
+      $('#age-days').textContent = result.days;
+
+      $('#total-months').textContent = formatNumber(result.totalMonths);
+      $('#total-weeks').textContent = formatNumber(result.totalWeeks);
+      $('#total-days').textContent = formatNumber(result.totalDays);
+      $('#total-hours').textContent = formatNumber(result.totalHours);
+      $('#total-minutes').textContent = formatNumber(result.totalMinutes);
+      $('#total-seconds').textContent = formatNumber(result.totalSeconds);
+
+      const birthMonth = result.birthDate.getMonth();
+      const birthDay = result.birthDate.getDate();
+      const birthYear = result.birthDate.getFullYear();
+
+      $('#zodiac-western').textContent = getWesternZodiac(birthMonth + 1, birthDay);
+      $('#birthstone').textContent = BIRTHSTONES[birthMonth];
+      $('#generation').textContent = getGeneration(birthYear);
+
+      const stats = getLifeStats(result.totalDays);
+      $('#heartbeats').textContent = formatNumber(stats.heartbeats);
+      $('#breaths').textContent = formatNumber(stats.breaths);
+
+      currentDob = result.birthDate;
+      if (liveInterval) clearInterval(liveInterval);
+      updateLiveCounter();
+      liveInterval = setInterval(updateLiveCounter, 1000);
+
+      if (countdownInterval) clearInterval(countdownInterval);
+      updateBirthdayCountdown();
+      countdownInterval = setInterval(updateBirthdayCountdown, 1000);
+
+      // Smooth scroll
+      els.resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch (err) {
+      console.error(err);
+      showError('An error occurred calculating age.');
     }
-
-    const result = calculateAge(dobVal, asOfVal);
-    if (!result) {
-      showError('Invalid dates. Birth date must be before the "as of" date.');
-      return;
-    }
-
-    els.errorMsg.style.display = 'none';
-    els.resultsSection.classList.add('active');
-    document.getElementById('stats-section').classList.add('active');
-
-    $('#age-years').textContent = result.years;
-    $('#age-months').textContent = result.months;
-    $('#age-days').textContent = result.days;
-
-    $('#total-months').textContent = formatNumber(result.totalMonths);
-    $('#total-weeks').textContent = formatNumber(result.totalWeeks);
-    $('#total-days').textContent = formatNumber(result.totalDays);
-    $('#total-hours').textContent = formatNumber(result.totalHours);
-
-    const birthMonth = result.birthDate.getMonth();
-    const birthDay = result.birthDate.getDate();
-    const birthYear = result.birthDate.getFullYear();
-
-    $('#zodiac-western').textContent = getWesternZodiac(birthMonth + 1, birthDay);
-    $('#birthstone').textContent = BIRTHSTONES[birthMonth];
-    $('#generation').textContent = getGeneration(birthYear);
-
-    const stats = getLifeStats(result.totalDays);
-    $('#heartbeats').textContent = formatNumber(stats.heartbeats);
-    $('#breaths').textContent = formatNumber(stats.breaths);
-
-    currentDob = result.birthDate;
-    if (liveInterval) clearInterval(liveInterval);
-    updateLiveCounter();
-    liveInterval = setInterval(updateLiveCounter, 1000);
-
-    if (countdownInterval) clearInterval(countdownInterval);
-    updateBirthdayCountdown();
-    countdownInterval = setInterval(updateBirthdayCountdown, 1000);
-
-    // Smooth scroll
-    els.resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function updateLiveCounter() {
@@ -327,8 +334,11 @@
   }
 
   function setDefaults() {
-    // Automatically select today's date for "Age As Of"
-    const today = new Date().toISOString().split('T')[0];
+    // Safely get local date considering timezone
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    const today = now.toISOString().split('T')[0];
+    
     els.asOfInput.value = today;
     els.dobInput.max = today;
   }
