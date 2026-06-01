@@ -1,7 +1,6 @@
 /* ===================================================
    SAFA AGE CALCULATOR — Complete JavaScript Engine
-   All features: age calc, zodiac, planets, life stats,
-   countdown, milestones, share, download, particles
+   Neo-Brutalist Version
    =================================================== */
 
 (function () {
@@ -18,14 +17,10 @@
     asOfInput: $('#as-of-input'),
     calcBtn: $('#calculate-btn'),
     resultsSection: $('#results-section'),
-    resultsContent: $('#results-content'),
-    noResults: $('#no-results'),
     errorMsg: $('#error-msg'),
-    themeToggle: $('#theme-toggle'),
     shareBtn: $('#share-btn'),
     downloadBtn: $('#download-btn'),
     toast: $('#toast'),
-    canvas: $('#particles-canvas'),
     // Age diff
     dob1Diff: $('#dob1-diff-input'),
     dob2Diff: $('#dob2-diff-input'),
@@ -55,14 +50,6 @@
     setTimeout(() => { els.toast.classList.remove('show'); }, 3000);
   }
 
-  function getDaysInMonth(year, month) {
-    return new Date(year, month + 1, 0).getDate();
-  }
-
-  function isLeapYear(year) {
-    return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
-  }
-
   /* ══════════════════════════════════
      AGE CALCULATION ENGINE
      ══════════════════════════════════ */
@@ -88,7 +75,6 @@
       months += 12;
     }
 
-    // Total calculations
     const diffMs = targetDate.getTime() - birthDate.getTime();
     const totalDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
     const totalWeeks = Math.floor(totalDays / 7);
@@ -106,7 +92,7 @@
   }
 
   /* ══════════════════════════════════
-     ZODIAC SIGNS
+     ZODIAC SIGNS & INFO
      ══════════════════════════════════ */
   const ZODIAC_WESTERN = [
     { sign: 'Capricorn ♑', start: [12, 22], end: [1, 19] },
@@ -124,12 +110,10 @@
   ];
 
   function getWesternZodiac(month, day) {
-    // month is 1-12
     for (const z of ZODIAC_WESTERN) {
       const [sm, sd] = z.start;
       const [em, ed] = z.end;
       if (sm > em) {
-        // Wraps around year (Capricorn)
         if ((month === sm && day >= sd) || (month === em && day <= ed)) return z.sign;
       } else {
         if ((month === sm && day >= sd) || (month === em && day <= ed) ||
@@ -139,128 +123,28 @@
     return 'Capricorn ♑';
   }
 
-  const CHINESE_ZODIAC = [
-    'Rat 🐀', 'Ox 🐂', 'Tiger 🐅', 'Rabbit 🐇', 'Dragon 🐲', 'Snake 🐍',
-    'Horse 🐴', 'Goat 🐐', 'Monkey 🐵', 'Rooster 🐓', 'Dog 🐕', 'Pig 🐖'
-  ];
+  const BIRTHSTONES = ['Garnet', 'Amethyst', 'Aquamarine', 'Diamond', 'Emerald', 'Alexandrite', 'Ruby', 'Peridot', 'Sapphire', 'Opal', 'Topaz', 'Tanzanite'];
 
-  function getChineseZodiac(year) {
-    return CHINESE_ZODIAC[(year - 4) % 12];
-  }
-
-  /* ══════════════════════════════════
-     BIRTHSTONE & BIRTH FLOWER
-     ══════════════════════════════════ */
-  const BIRTHSTONES = [
-    'Garnet', 'Amethyst', 'Aquamarine', 'Diamond',
-    'Emerald', 'Alexandrite', 'Ruby', 'Peridot',
-    'Sapphire', 'Opal', 'Topaz', 'Tanzanite'
-  ];
-
-  const BIRTH_FLOWERS = [
-    'Carnation', 'Violet', 'Daffodil', 'Daisy',
-    'Lily of the Valley', 'Rose', 'Larkspur', 'Gladiolus',
-    'Aster', 'Marigold', 'Chrysanthemum', 'Poinsettia'
-  ];
-
-  /* ══════════════════════════════════
-     GENERATION
-     ══════════════════════════════════ */
   function getGeneration(year) {
     if (year >= 2013) return 'Gen Alpha';
     if (year >= 1997) return 'Gen Z';
     if (year >= 1981) return 'Millennial';
     if (year >= 1965) return 'Gen X';
     if (year >= 1946) return 'Baby Boomer';
-    if (year >= 1928) return 'Silent Gen';
-    return 'Greatest Gen';
-  }
-
-  /* ══════════════════════════════════
-     LIFE PATH NUMBER (Numerology)
-     ══════════════════════════════════ */
-  function getLifePathNumber(dateStr) {
-    const digits = dateStr.replace(/\D/g, '');
-    let sum = 0;
-    for (const d of digits) sum += parseInt(d);
-    while (sum > 9 && sum !== 11 && sum !== 22 && sum !== 33) {
-      let newSum = 0;
-      for (const d of String(sum)) newSum += parseInt(d);
-      sum = newSum;
-    }
-    return sum;
-  }
-
-  /* ══════════════════════════════════
-     PLANET AGES
-     ══════════════════════════════════ */
-  const PLANET_ORBITAL_DAYS = {
-    mercury: 87.97,
-    venus: 224.7,
-    mars: 687.0,
-    jupiter: 4332.59,
-    saturn: 10759.22,
-  };
-
-  function getPlanetAges(totalDays) {
-    const result = {};
-    for (const [planet, days] of Object.entries(PLANET_ORBITAL_DAYS)) {
-      result[planet] = (totalDays / days).toFixed(2);
-    }
-    return result;
+    return 'Silent Gen';
   }
 
   /* ══════════════════════════════════
      LIFE STATISTICS
      ══════════════════════════════════ */
   function getLifeStats(totalDays) {
-    const totalHours = totalDays * 24;
-    const totalMinutes = totalHours * 60;
+    const totalMinutes = totalDays * 24 * 60;
     return {
-      heartbeats: Math.floor(totalMinutes * 72),       // avg 72 bpm
-      breaths: Math.floor(totalMinutes * 16),           // avg 16 per min
-      sleepHours: Math.floor(totalDays * 8),            // avg 8 hrs/day
-      meals: Math.floor(totalDays * 3),                 // 3 meals/day
-      fullMoons: Math.floor(totalDays / 29.53),         // lunar cycle
-      sunDistance: Math.floor(totalDays * 2573600),      // km/day around sun (940M km / 365.25)
+      heartbeats: Math.floor(totalMinutes * 72),
+      breaths: Math.floor(totalMinutes * 16),
     };
   }
 
-  /* ══════════════════════════════════
-     MILESTONES
-     ══════════════════════════════════ */
-  function getMilestones(birthDate, totalDays, totalSeconds) {
-    const milestones = [
-      { label: '1,000 Days', days: 1000 },
-      { label: '5,000 Days', days: 5000 },
-      { label: '10,000 Days', days: 10000 },
-      { label: '15,000 Days', days: 15000 },
-      { label: '20,000 Days', days: 20000 },
-      { label: '25,000 Days', days: 25000 },
-      { label: '30,000 Days', days: 30000 },
-      { label: '1 Billion Sec', days: Math.floor(1e9 / 86400) },
-      { label: '2 Billion Sec', days: Math.floor(2e9 / 86400) },
-    ];
-
-    return milestones.map(m => {
-      const achieved = totalDays >= m.days;
-      const milestoneDate = new Date(birthDate.getTime() + m.days * 86400000);
-      return {
-        label: m.label,
-        achieved,
-        date: milestoneDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
-      };
-    });
-  }
-
-  /* ══════════════════════════════════
-     DAY OF WEEK
-     ══════════════════════════════════ */
-  const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-  /* ══════════════════════════════════
-     BIRTHDAY COUNTDOWN
-     ══════════════════════════════════ */
   function getNextBirthday(birthDate) {
     const now = new Date();
     let nextBday = new Date(now.getFullYear(), birthDate.getMonth(), birthDate.getDate());
@@ -292,84 +176,42 @@
       return;
     }
 
-    // Hide error, show results
     els.errorMsg.style.display = 'none';
     els.resultsSection.classList.add('active');
     document.getElementById('stats-section').classList.add('active');
 
-    // ── Main Age ──
     $('#age-years').textContent = result.years;
     $('#age-months').textContent = result.months;
     $('#age-days').textContent = result.days;
 
-    // ── Total Units ──
     $('#total-months').textContent = formatNumber(result.totalMonths);
     $('#total-weeks').textContent = formatNumber(result.totalWeeks);
     $('#total-days').textContent = formatNumber(result.totalDays);
     $('#total-hours').textContent = formatNumber(result.totalHours);
-    $('#total-minutes').textContent = formatNumber(result.totalMinutes);
-    $('#total-seconds').textContent = formatNumber(result.totalSeconds);
 
-    // ── Info Cards ──
-    const birthMonth = result.birthDate.getMonth(); // 0-indexed
+    const birthMonth = result.birthDate.getMonth();
     const birthDay = result.birthDate.getDate();
     const birthYear = result.birthDate.getFullYear();
 
-    $('#day-of-birth').textContent = DAYS[result.birthDate.getDay()];
     $('#zodiac-western').textContent = getWesternZodiac(birthMonth + 1, birthDay);
-    $('#zodiac-chinese').textContent = getChineseZodiac(birthYear);
     $('#birthstone').textContent = BIRTHSTONES[birthMonth];
-    $('#birth-flower').textContent = BIRTH_FLOWERS[birthMonth];
     $('#generation').textContent = getGeneration(birthYear);
-    $('#life-path-number').textContent = getLifePathNumber(dobVal);
 
-    // ── Life Stats ──
     const stats = getLifeStats(result.totalDays);
     $('#heartbeats').textContent = formatNumber(stats.heartbeats);
     $('#breaths').textContent = formatNumber(stats.breaths);
-    $('#sleep-hours').textContent = formatNumber(stats.sleepHours);
-    $('#meals').textContent = formatNumber(stats.meals);
-    $('#full-moons').textContent = formatNumber(stats.fullMoons);
-    $('#sun-distance').textContent = formatNumber(stats.sunDistance);
 
-    // ── Planet Ages ──
-    const planets = getPlanetAges(result.totalDays);
-    $('#planet-mercury').textContent = planets.mercury;
-    $('#planet-venus').textContent = planets.venus;
-    $('#planet-mars').textContent = planets.mars;
-    $('#planet-jupiter').textContent = planets.jupiter;
-    $('#planet-saturn').textContent = planets.saturn;
-
-    // ── Milestones ──
-    const milestones = getMilestones(result.birthDate, result.totalDays, result.totalSeconds);
-    const milestonesHtml = milestones.map(m => {
-      const cls = m.achieved ? 'achieved' : 'upcoming';
-      const icon = m.achieved ? '✅' : '⏳';
-      return `<div class="milestone-badge ${cls}" title="${m.date}">${icon} ${m.label}</div>`;
-    }).join('');
-    $('#milestones-container').innerHTML = milestonesHtml;
-
-    // ── Life Progress ──
-    const avgLifeDays = 80 * 365.25;
-    const progressPercent = Math.min((result.totalDays / avgLifeDays) * 100, 100).toFixed(1);
-    $('#life-progress-bar').style.width = progressPercent + '%';
-    $('#life-progress-text').innerHTML = `You have lived <span>${progressPercent}%</span> of an average 80-year lifespan`;
-
-    // ── Live Counter ──
     currentDob = result.birthDate;
     if (liveInterval) clearInterval(liveInterval);
     updateLiveCounter();
     liveInterval = setInterval(updateLiveCounter, 1000);
 
-    // ── Birthday Countdown ──
     if (countdownInterval) clearInterval(countdownInterval);
     updateBirthdayCountdown();
     countdownInterval = setInterval(updateBirthdayCountdown, 1000);
 
-    // Scroll to results on mobile
-    if (window.innerWidth <= 1024) {
-      els.resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    // Smooth scroll
+    els.resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function updateLiveCounter() {
@@ -380,12 +222,9 @@
     const hrs = Math.floor(totalSec / 3600);
     const mins = Math.floor((totalSec % 3600) / 60);
     const secs = totalSec % 60;
-
     const days = Math.floor(hrs / 24);
     const remHrs = hrs % 24;
-
-    $('#live-seconds').textContent =
-      `${formatNumber(days)} days, ${remHrs}h ${mins}m ${secs}s`;
+    $('#live-seconds').textContent = `${formatNumber(days)} days, ${remHrs}h ${mins}m ${secs}s`;
   }
 
   function updateBirthdayCountdown() {
@@ -393,90 +232,34 @@
     const now = new Date();
     const nextBday = getNextBirthday(currentDob);
     const diff = nextBday.getTime() - now.getTime();
-
-    if (diff <= 0) {
-      $('#countdown-days').textContent = '🎉';
-      $('#countdown-hours').textContent = '🎂';
-      $('#countdown-minutes').textContent = '🥳';
-      $('#countdown-seconds').textContent = '🎈';
-      return;
-    }
-
     const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const s = Math.floor((diff % (1000 * 60)) / 1000);
-
     $('#countdown-days').textContent = d;
-    $('#countdown-hours').textContent = h;
-    $('#countdown-minutes').textContent = m;
-    $('#countdown-seconds').textContent = s;
   }
 
   /* ══════════════════════════════════
-     AGE DIFFERENCE CALCULATOR
+     AGE DIFFERENCE
      ══════════════════════════════════ */
   function doAgeDiff() {
     const dob1 = els.dob1Diff.value;
     const dob2 = els.dob2Diff.value;
-
-    if (!dob1 || !dob2) {
-      showToast('Please enter both dates of birth');
-      return;
-    }
+    if (!dob1 || !dob2) { showToast('Please enter both dates'); return; }
 
     const d1 = new Date(dob1);
     const d2 = new Date(dob2);
-    const older = d1 < d2 ? d1 : d2;
-    const younger = d1 < d2 ? d2 : d1;
-
-    let years = younger.getFullYear() - older.getFullYear();
-    let months = younger.getMonth() - older.getMonth();
-    let days = younger.getDate() - older.getDate();
-
-    if (days < 0) {
-      months--;
-      const prevMonth = new Date(younger.getFullYear(), younger.getMonth(), 0);
-      days += prevMonth.getDate();
-    }
-    if (months < 0) {
-      years--;
-      months += 12;
-    }
-
     const totalDiff = Math.floor(Math.abs(d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
-
-    els.ageDiffResult.classList.add('active');
-    els.ageDiffResult.innerHTML = `
-      <div style="text-align: center;">
-        <div style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-          ${years} Years, ${months} Months, ${days} Days
-        </div>
-        <div style="color: var(--text-secondary); font-size: 0.9rem;">
-          Total difference: <strong style="color: var(--neon-cyan);">${formatNumber(totalDiff)} days</strong>
-        </div>
-      </div>
-    `;
+    
+    els.ageDiffResult.innerHTML = `DIFFERENCE: ${formatNumber(totalDiff)} DAYS`;
   }
 
   /* ══════════════════════════════════
-     SHARE FUNCTIONALITY
+     SHARE & DOWNLOAD
      ══════════════════════════════════ */
   function doShare() {
     const years = $('#age-years').textContent;
-    const months = $('#age-months').textContent;
-    const days = $('#age-days').textContent;
-    const zodiac = $('#zodiac-western').textContent;
-
-    const text = `[SAFA] AGE CALC\nMy age is ${years} years, ${months} months, and ${days} days!\n\nCalculate yours at:`;
+    const text = `[SAFA] AGE CALC\nMy age is ${years} years!\nCalculate yours at:`;
     const url = window.location.href;
-
     if (navigator.share) {
-      navigator.share({
-        title: 'My Age — Safa Age Calculator',
-        text: text,
-        url: url,
-      }).catch(() => {});
+      navigator.share({ title: 'My Age', text: text, url: url }).catch(() => {});
     } else {
       navigator.clipboard.writeText(text + '\n' + url)
         .then(() => showToast('COPIED TO CLIPBOARD'))
@@ -484,35 +267,27 @@
     }
   }
 
-  /* ══════════════════════════════════
-     DOWNLOAD AS IMAGE (BRUTALIST STYLE)
-     ══════════════════════════════════ */
   function doDownload() {
     const canvas = document.createElement('canvas');
     canvas.width = 800;
     canvas.height = 500;
     const ctx = canvas.getContext('2d');
 
-    // Background
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, 800, 500);
 
-    // Thick Border
     ctx.strokeStyle = '#000000';
     ctx.lineWidth = 10;
     ctx.strokeRect(5, 5, 790, 490);
 
-    // Header block
     ctx.fillStyle = '#ff3e00';
     ctx.fillRect(10, 10, 780, 80);
     
-    // Title
     ctx.fillStyle = '#ffffff';
     ctx.font = 'bold 36px "Space Grotesk", sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('[SAFA] AGE CALC', 400, 62);
 
-    // Age
     const years = $('#age-years').textContent;
     const monthsVal = $('#age-months').textContent;
     const daysVal = $('#age-days').textContent;
@@ -520,141 +295,60 @@
     ctx.fillStyle = '#000000';
     ctx.font = 'bold 72px "Space Grotesk", sans-serif';
     ctx.fillText(`${years} YRS`, 400, 200);
-
     ctx.font = 'bold 40px "Space Grotesk", sans-serif';
     ctx.fillText(`${monthsVal} MOS, ${daysVal} DAYS`, 400, 270);
 
-    // Divider
     ctx.fillRect(200, 320, 400, 4);
 
-    // Stats
     ctx.font = 'bold 20px monospace';
     ctx.fillStyle = '#555555';
     const totalDays = $('#total-days').textContent;
     ctx.fillText(`TOTAL DAYS: ${totalDays}`, 400, 370);
 
-    const zodiac = $('#zodiac-western').textContent;
-    ctx.fillText(`ZODIAC: ${zodiac}`, 400, 410);
-
-    // Download
     const link = document.createElement('a');
     link.download = 'safa-age.png';
     link.href = canvas.toDataURL('image/png');
     link.click();
-
     showToast('IMAGE DOWNLOADED');
-  }
-    const canvas = document.createElement('canvas');
-    canvas.width = 800;
-    canvas.height = 500;
-    const ctx = canvas.getContext('2d');
-
-    // Background
-    const grad = ctx.createLinearGradient(0, 0, 800, 500);
-    grad.addColorStop(0, '#06060f');
-    grad.addColorStop(1, '#12122a');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, 800, 500);
-
-    // Accent line
-    const lineGrad = ctx.createLinearGradient(0, 0, 800, 0);
-    lineGrad.addColorStop(0, '#00f0ff');
-    lineGrad.addColorStop(1, '#8b5cf6');
-    ctx.fillStyle = lineGrad;
-    ctx.fillRect(0, 0, 800, 4);
-
-    // Title
-    ctx.fillStyle = '#00f0ff';
-    ctx.font = 'bold 20px Inter, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('SAFA AGE CALCULATOR', 400, 50);
-
-    // Age
-    const years = $('#age-years').textContent;
-    const monthsVal = $('#age-months').textContent;
-    const daysVal = $('#age-days').textContent;
-
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 56px Inter, sans-serif';
-    ctx.fillText(`${years} Years`, 400, 140);
-
-    ctx.font = 'bold 32px Inter, sans-serif';
-    ctx.fillStyle = 'rgba(255,255,255,0.7)';
-    ctx.fillText(`${monthsVal} Months, ${daysVal} Days`, 400, 190);
-
-    // Zodiac & Day
-    const zodiac = $('#zodiac-western').textContent;
-    const dayBorn = $('#day-of-birth').textContent;
-
-    ctx.font = '20px Inter, sans-serif';
-    ctx.fillStyle = '#8b5cf6';
-    ctx.fillText(`${zodiac}  •  Born on ${dayBorn}`, 400, 250);
-
-    // Stats
-    ctx.font = '16px Inter, sans-serif';
-    ctx.fillStyle = 'rgba(255,255,255,0.5)';
-    const totalDays = $('#total-days').textContent;
-    const totalHours = $('#total-hours').textContent;
-    ctx.fillText(`${totalDays} total days  •  ${totalHours} total hours`, 400, 300);
-
-    // Generation & Birthstone
-    const gen = $('#generation').textContent;
-    const stone = $('#birthstone').textContent;
-    ctx.fillText(`${gen}  •  Birthstone: ${stone}`, 400, 340);
-
-    // Footer
-    ctx.fillStyle = 'rgba(255,255,255,0.3)';
-    ctx.font = '14px Inter, sans-serif';
-    ctx.fillText('safa-age-calculator.pages.dev', 400, 470);
-
-    // Download
-    const link = document.createElement('a');
-    link.download = 'my-age-safa-calculator.png';
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-
-    showToast('Age card downloaded! 📥');
   }
 
   /* ══════════════════════════════════
      FAQ ACCORDION
      ══════════════════════════════════ */
+  function initFaq() {
+    $$('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        const isOpen = item.classList.contains('open');
+        $$('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+  }
+
   function setDefaults() {
+    // Automatically select today's date for "Age As Of"
     const today = new Date().toISOString().split('T')[0];
     els.asOfInput.value = today;
     els.dobInput.max = today;
-    els.asOfInput.max = '2100-12-31';
   }
 
-  /* ══════════════════════════════════
-     EVENT LISTENERS
-     ══════════════════════════════════ */
   function bindEvents() {
     els.calcBtn.addEventListener('click', doCalculate);
-    els.themeToggle.addEventListener('click', toggleTheme);
     els.shareBtn.addEventListener('click', doShare);
     els.downloadBtn.addEventListener('click', doDownload);
     els.ageDiffBtn.addEventListener('click', doAgeDiff);
 
-    // Enter key to calculate
-    els.dobInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') doCalculate();
-    });
-    els.asOfInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') doCalculate();
-    });
+    els.dobInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') doCalculate(); });
+    els.asOfInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') doCalculate(); });
   }
 
-  /* ══════════════════════════════════
-     INITIALIZATION
-     ══════════════════════════════════ */
   function init() {
     setDefaults();
     initFaq();
     bindEvents();
   }
 
-  // Run when DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
