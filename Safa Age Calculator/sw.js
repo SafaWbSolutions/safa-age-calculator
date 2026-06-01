@@ -9,12 +9,15 @@ const ASSETS_TO_CACHE = [
   '/icon-512.png'
 ];
 
-// Install Event - Cache assets
+// Install Event - Cache assets safely
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        return cache.addAll(ASSETS_TO_CACHE);
+        // Cache files one by one so if one fails, others still get cached
+        return Promise.allSettled(
+          ASSETS_TO_CACHE.map(url => cache.add(url).catch(err => console.log('SW Cache Error:', url, err)))
+        );
       })
       .then(() => self.skipWaiting())
   );
