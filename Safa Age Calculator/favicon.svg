@@ -1,27 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#0a0a2e"/>
-      <stop offset="100%" style="stop-color:#1a0a3e"/>
-    </linearGradient>
-    <linearGradient id="neon" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#00f0ff"/>
-      <stop offset="100%" style="stop-color:#8b5cf6"/>
-    </linearGradient>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
-      <feMerge>
-        <feMergeNode in="coloredBlur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-  </defs>
-  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
-  <g filter="url(#glow)">
-    <text x="256" y="200" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="160" font-weight="900" fill="url(#neon)">S</text>
-    <text x="256" y="340" text-anchor="middle" font-family="Arial, sans-serif" font-size="60" font-weight="700" fill="#00f0ff" opacity="0.9">AGE</text>
-    <circle cx="256" cy="400" r="30" fill="none" stroke="url(#neon)" stroke-width="4" opacity="0.6"/>
-    <line x1="256" y1="380" x2="256" y2="400" stroke="#00f0ff" stroke-width="3" opacity="0.8"/>
-    <line x1="256" y1="400" x2="272" y2="410" stroke="#8b5cf6" stroke-width="3" opacity="0.8"/>
-  </g>
+  <rect width="512" height="512" fill="#ffffff"/>
+  <rect x="32" y="32" width="448" height="448" fill="#ff3e00" stroke="#000000" stroke-width="32"/>
+  <text x="256" y="290" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="200" font-weight="900" fill="#000000">S</text>
 </svg>

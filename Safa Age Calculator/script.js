@@ -295,8 +295,7 @@
     // Hide error, show results
     els.errorMsg.style.display = 'none';
     els.resultsSection.classList.add('active');
-    els.noResults.style.display = 'none';
-    els.resultsContent.style.display = 'block';
+    document.getElementById('stats-section').classList.add('active');
 
     // ── Main Age ──
     $('#age-years').textContent = result.years;
@@ -469,7 +468,7 @@
     const days = $('#age-days').textContent;
     const zodiac = $('#zodiac-western').textContent;
 
-    const text = `🧮 My age is ${years} years, ${months} months, and ${days} days!\n♈ My zodiac sign: ${zodiac}\n\nCalculate your age at:`;
+    const text = `[SAFA] AGE CALC\nMy age is ${years} years, ${months} months, and ${days} days!\n\nCalculate yours at:`;
     const url = window.location.href;
 
     if (navigator.share) {
@@ -480,15 +479,71 @@
       }).catch(() => {});
     } else {
       navigator.clipboard.writeText(text + '\n' + url)
-        .then(() => showToast('Results copied to clipboard! 📋'))
-        .catch(() => showToast('Could not copy results'));
+        .then(() => showToast('COPIED TO CLIPBOARD'))
+        .catch(() => showToast('FAILED TO COPY'));
     }
   }
 
   /* ══════════════════════════════════
-     DOWNLOAD AS IMAGE
+     DOWNLOAD AS IMAGE (BRUTALIST STYLE)
      ══════════════════════════════════ */
   function doDownload() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 800;
+    canvas.height = 500;
+    const ctx = canvas.getContext('2d');
+
+    // Background
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, 800, 500);
+
+    // Thick Border
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 10;
+    ctx.strokeRect(5, 5, 790, 490);
+
+    // Header block
+    ctx.fillStyle = '#ff3e00';
+    ctx.fillRect(10, 10, 780, 80);
+    
+    // Title
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 36px "Space Grotesk", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('[SAFA] AGE CALC', 400, 62);
+
+    // Age
+    const years = $('#age-years').textContent;
+    const monthsVal = $('#age-months').textContent;
+    const daysVal = $('#age-days').textContent;
+
+    ctx.fillStyle = '#000000';
+    ctx.font = 'bold 72px "Space Grotesk", sans-serif';
+    ctx.fillText(`${years} YRS`, 400, 200);
+
+    ctx.font = 'bold 40px "Space Grotesk", sans-serif';
+    ctx.fillText(`${monthsVal} MOS, ${daysVal} DAYS`, 400, 270);
+
+    // Divider
+    ctx.fillRect(200, 320, 400, 4);
+
+    // Stats
+    ctx.font = 'bold 20px monospace';
+    ctx.fillStyle = '#555555';
+    const totalDays = $('#total-days').textContent;
+    ctx.fillText(`TOTAL DAYS: ${totalDays}`, 400, 370);
+
+    const zodiac = $('#zodiac-western').textContent;
+    ctx.fillText(`ZODIAC: ${zodiac}`, 400, 410);
+
+    // Download
+    const link = document.createElement('a');
+    link.download = 'safa-age.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+
+    showToast('IMAGE DOWNLOADED');
+  }
     const canvas = document.createElement('canvas');
     canvas.width = 800;
     canvas.height = 500;
@@ -562,164 +617,7 @@
   }
 
   /* ══════════════════════════════════
-     THEME TOGGLE
-     ══════════════════════════════════ */
-  function initTheme() {
-    const saved = localStorage.getItem('safa-theme');
-    if (saved === 'light') {
-      document.body.classList.replace('dark-theme', 'light-theme');
-      els.themeToggle.textContent = '☀️';
-    }
-  }
-
-  function toggleTheme() {
-    const isLight = document.body.classList.contains('light-theme');
-    if (isLight) {
-      document.body.classList.replace('light-theme', 'dark-theme');
-      els.themeToggle.textContent = '🌙';
-      localStorage.setItem('safa-theme', 'dark');
-    } else {
-      document.body.classList.replace('dark-theme', 'light-theme');
-      els.themeToggle.textContent = '☀️';
-      localStorage.setItem('safa-theme', 'light');
-    }
-  }
-
-  /* ══════════════════════════════════
      FAQ ACCORDION
-     ══════════════════════════════════ */
-  function initFaq() {
-    $$('.faq-question').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const item = btn.parentElement;
-        const isOpen = item.classList.contains('open');
-
-        // Close all
-        $$('.faq-item').forEach(i => i.classList.remove('open'));
-        $$('.faq-question').forEach(q => q.setAttribute('aria-expanded', 'false'));
-
-        // Toggle current
-        if (!isOpen) {
-          item.classList.add('open');
-          btn.setAttribute('aria-expanded', 'true');
-        }
-      });
-    });
-  }
-
-  /* ══════════════════════════════════
-     SCROLL REVEAL ANIMATION
-     ══════════════════════════════════ */
-  function initReveal() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-
-    $$('.reveal').forEach(el => observer.observe(el));
-  }
-
-  /* ══════════════════════════════════
-     PARTICLE ANIMATION SYSTEM
-     ══════════════════════════════════ */
-  function initParticles() {
-    const canvas = els.canvas;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    let animationId;
-
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-
-    function createParticle() {
-      return {
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        size: Math.random() * 2 + 0.5,
-        speedX: (Math.random() - 0.5) * 0.3,
-        speedY: (Math.random() - 0.5) * 0.3,
-        opacity: Math.random() * 0.5 + 0.1,
-        pulse: Math.random() * Math.PI * 2,
-      };
-    }
-
-    function initParticleArray() {
-      const count = Math.min(Math.floor((canvas.width * canvas.height) / 15000), 80);
-      particles = Array.from({ length: count }, createParticle);
-    }
-
-    function drawParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      particles.forEach(p => {
-        p.x += p.speedX;
-        p.y += p.speedY;
-        p.pulse += 0.02;
-
-        // Wrap around
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
-
-        const currentOpacity = p.opacity * (0.5 + 0.5 * Math.sin(p.pulse));
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0, 240, 255, ${currentOpacity})`;
-        ctx.fill();
-      });
-
-      // Draw connections
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < 120) {
-            const opacity = (1 - distance / 120) * 0.15;
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(0, 240, 255, ${opacity})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        }
-      }
-
-      animationId = requestAnimationFrame(drawParticles);
-    }
-
-    resize();
-    initParticleArray();
-    drawParticles();
-
-    window.addEventListener('resize', () => {
-      resize();
-      initParticleArray();
-    });
-
-    // Reduce animation when tab is not visible
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        cancelAnimationFrame(animationId);
-      } else {
-        drawParticles();
-      }
-    });
-  }
-
-  /* ══════════════════════════════════
-     SET DEFAULT DATE
      ══════════════════════════════════ */
   function setDefaults() {
     const today = new Date().toISOString().split('T')[0];
@@ -752,10 +650,7 @@
      ══════════════════════════════════ */
   function init() {
     setDefaults();
-    initTheme();
     initFaq();
-    initReveal();
-    initParticles();
     bindEvents();
   }
 
