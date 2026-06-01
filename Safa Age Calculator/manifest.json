@@ -1,0 +1,19 @@
+{
+  "name": "Safa Age Calculator",
+  "short_name": "Safa Age",
+  "description": "Calculate your exact age in years, months, days, hours, minutes & seconds. Discover your zodiac sign, birthstone, and fun life statistics.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a1a",
+  "theme_color": "#00f0ff",
+  "orientation": "any",
+  "categories": ["utilities", "lifestyle"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

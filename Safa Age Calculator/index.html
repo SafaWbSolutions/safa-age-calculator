@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <!-- ── Meta ── -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Age Calculator — Calculate Exact Age in Years, Months &amp; Days | Safa</title>
+  <meta name="description" content="Free online age calculator. Find your exact age in years, months, weeks, days, hours, minutes &amp; seconds. Discover your zodiac sign, birthstone, life stats, planet ages, and more!">
+  <meta name="keywords" content="age calculator, calculate age, how old am I, age in days, birthday calculator, date of birth calculator, chronological age, age difference calculator, zodiac sign calculator">
+  <meta name="author" content="Safa Age Calculator">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://safa-age-calculator.pages.dev/">
+
+  <!-- ── Open Graph ── -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Safa Age Calculator — Calculate Your Exact Age">
+  <meta property="og:description" content="Free online tool to calculate your exact age in years, months, days, hours, minutes &amp; seconds. Discover zodiac sign, birthstone, planet ages &amp; more!">
+  <meta property="og:url" content="https://safa-age-calculator.pages.dev/">
+  <meta property="og:image" content="https://safa-age-calculator.pages.dev/og-image.png">
+  <meta property="og:site_name" content="Safa Age Calculator">
+  <meta property="og:locale" content="en_US">
+
+  <!-- ── Twitter Card ── -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Safa Age Calculator — Calculate Your Exact Age">
+  <meta name="twitter:description" content="Find your exact age in years, months, days, hours, minutes &amp; seconds. Free online calculator!">
+  <meta name="twitter:image" content="https://safa-age-calculator.pages.dev/og-image.png">
+
+  <!-- ── PWA ── -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#00f0ff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- ── Favicon ── -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <!-- ── Stylesheet ── -->
+  <link rel="stylesheet" href="/style.css">
+
+  <!-- ── Schema.org: WebApplication ── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Safa Age Calculator",
+    "description": "Calculate your exact age in years, months, weeks, days, hours, minutes, and seconds. Discover your zodiac sign, birthstone, and fun life statistics.",
+    "url": "https://safa-age-calculator.pages.dev/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "creator": {
+      "@type": "Organization",
+      "name": "Safa Age Calculator"
+    }
+  }
+  </script>
+
+  <!-- ── Schema.org: FAQPage ── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I calculate my exact age?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Enter your date of birth in the Safa Age Calculator and it will instantly calculate your exact age in years, months, days, hours, minutes, and seconds. You can also calculate your age as of any specific date."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many days old am I?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use the Safa Age Calculator to find out your exact age in days. Simply enter your date of birth, and the calculator will show your total age in days along with weeks, hours, minutes, and seconds."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is my zodiac sign based on my date of birth?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Your zodiac sign is determined by your birth date. The Safa Age Calculator automatically detects and displays your Western zodiac sign (e.g., Aries, Taurus) and Chinese zodiac animal (e.g., Dragon, Tiger) when you enter your date of birth."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I calculate the age difference between two people?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use the Age Difference Calculator section on this page. Enter the dates of birth for two people, and the tool will calculate the exact difference in years, months, and days between them."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many seconds have I been alive?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Safa Age Calculator includes a live second counter that shows your age ticking in real time. Enter your date of birth to see a live count of seconds, minutes, and hours since you were born."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What day of the week was I born on?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Enter your date of birth in the Safa Age Calculator, and it will tell you the exact day of the week (Monday, Tuesday, etc.) you were born on."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- ══════════════════════════════════
+       GOOGLE ADSENSE — Paste your code here
+       ══════════════════════════════════
+       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+  -->
+</head>
+<body class="dark-theme">
+  <!-- Accessibility Skip Link -->
+  <a href="#calculator" class="skip-link">Skip to Calculator</a>
+
+  <!-- Particle Animation Canvas -->
+  <canvas id="particles-canvas" aria-hidden="true"></canvas>
+
+  <!-- ══════════════════════════════════
+       NAVBAR
+       ══════════════════════════════════ -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <a href="/" class="logo" aria-label="Safa Age Calculator — Home">
+      <img src="/favicon.svg" alt="" class="logo-icon" width="36" height="36">
+      <span class="logo-text">SAFA AGE CALC</span>
+    </a>
+    <div class="navbar-actions">
+      <button id="theme-toggle" aria-label="Toggle dark/light theme" title="Toggle Theme">
+        🌙
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════
+       MAIN CONTENT
+       ══════════════════════════════════ -->
+  <main id="main-content">
+    <div class="container">
+
+      <!-- ── Hero ── -->
+      <section class="hero-section">
+        <div class="hero-badge">
+          <span class="dot"></span>
+          Free Online Tool
+        </div>
+        <h1 class="hero-title">
+          <span class="gradient-text">Safa Age Calculator</span>
+        </h1>
+        <p class="hero-subtitle">
+          Calculate your exact age in years, months, days, hours, minutes &amp; live ticking seconds. Discover your zodiac sign, birthstone, planet ages, and fascinating life statistics.
+        </p>
+      </section>
+
+      <!-- ── Ad Slot: Header ── -->
+      <!-- ADSENSE SLOT 1: Header Leaderboard (728x90)
+           Replace this div's content with your AdSense ad code -->
+      <div class="ad-slot ad-header" id="ad-header" aria-hidden="true">
+        <!-- Ad Space -->
+      </div>
+
+      <!-- ══════════════════════════════════
+           CALCULATOR
+           ══════════════════════════════════ -->
+      <section class="calculator-section" id="calculator" aria-label="Age Calculator">
+
+        <!-- ── Form ── -->
+        <div class="glass-card calculator-form">
+          <div class="form-group">
+            <label for="dob-input" class="form-label">📅 Date of Birth</label>
+            <input type="date" id="dob-input" class="form-input" required aria-required="true" aria-describedby="dob-hint">
+            <span class="form-hint" id="dob-hint">Select your birth date</span>
+          </div>
+
+          <div class="form-group">
+            <label for="as-of-input" class="form-label">📆 Age as of</label>
+            <input type="date" id="as-of-input" class="form-input" aria-describedby="asof-hint">
+            <span class="form-hint" id="asof-hint">Defaults to today</span>
+          </div>
+
+          <button id="calculate-btn" class="neon-btn" type="button">
+            ⚡ Calculate Age
+          </button>
+
+          <div id="error-msg" role="alert" style="color: #f87171; font-size: 0.85rem; margin-top: 0.75rem; display: none;"></div>
+        </div>
+
+        <!-- ── Results Panel ── -->
+        <div class="results-panel" id="results-section">
+
+          <!-- No Results Placeholder -->
+          <div class="no-results" id="no-results">
+            <div class="no-results-icon">🧮</div>
+            <p>Enter your date of birth and hit <strong>Calculate</strong> to see your results.</p>
+          </div>
+
+          <!-- Results Content (hidden until calculated) -->
+          <div id="results-content" style="display: none;">
+
+            <!-- Main Age -->
+            <div class="main-age">
+              <div class="age-box">
+                <div class="age-value" id="age-years">0</div>
+                <div class="age-label">Years</div>
+              </div>
+              <div class="age-box">
+                <div class="age-value" id="age-months">0</div>
+                <div class="age-label">Months</div>
+              </div>
+              <div class="age-box">
+                <div class="age-value" id="age-days">0</div>
+                <div class="age-label">Days</div>
+              </div>
+            </div>
+
+            <!-- Live Counter -->
+            <div class="live-counter">
+              <div class="live-counter-label">⏱ You have been alive for</div>
+              <div class="live-counter-value" id="live-seconds">0 seconds</div>
+            </div>
+
+            <!-- Total Units -->
+            <div class="section-title">📊 Total Age Breakdown</div>
+            <div class="total-units-grid">
+              <div class="unit-box">
+                <div class="unit-value" id="total-months">0</div>
+                <div class="unit-label">Months</div>
+              </div>
+              <div class="unit-box">
+                <div class="unit-value" id="total-weeks">0</div>
+                <div class="unit-label">Weeks</div>
+              </div>
+              <div class="unit-box">
+                <div class="unit-value" id="total-days">0</div>
+                <div class="unit-label">Days</div>
+              </div>
+              <div class="unit-box">
+                <div class="unit-value" id="total-hours">0</div>
+                <div class="unit-label">Hours</div>
+              </div>
+              <div class="unit-box">
+                <div class="unit-value" id="total-minutes">0</div>
+                <div class="unit-label">Minutes</div>
+              </div>
+              <div class="unit-box">
+                <div class="unit-value" id="total-seconds">0</div>
+                <div class="unit-label">Seconds</div>
+              </div>
+            </div>
+
+            <!-- Birthday Countdown -->
+            <div class="birthday-countdown">
+              <div class="section-title">🎂 Next Birthday Countdown</div>
+              <div class="countdown-grid">
+                <div class="countdown-box">
+                  <div class="countdown-value" id="countdown-days">0</div>
+                  <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-box">
+                  <div class="countdown-value" id="countdown-hours">0</div>
+                  <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-box">
+                  <div class="countdown-value" id="countdown-minutes">0</div>
+                  <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-box">
+                  <div class="countdown-value" id="countdown-seconds">0</div>
+                  <div class="countdown-label">Seconds</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Info Cards -->
+            <div class="section-title">✨ Your Birth Details</div>
+            <div class="info-grid">
+              <div class="info-card">
+                <div class="info-card-icon">📅</div>
+                <div class="info-card-value" id="day-of-birth">—</div>
+                <div class="info-card-label">Day of Birth</div>
+              </div>
+              <div class="info-card">
+                <div class="info-card-icon">♈</div>
+                <div class="info-card-value" id="zodiac-western">—</div>
+                <div class="info-card-label">Zodiac Sign</div>
+              </div>
+              <div class="info-card">
+                <div class="info-card-icon">🐲</div>
+                <div class="info-card-value" id="zodiac-chinese">—</div>
+                <div class="info-card-label">Chinese Zodiac</div>
+              </div>
+              <div class="info-card">
+                <div class="info-card-icon">💎</div>
+                <div class="info-card-value" id="birthstone">—</div>
+                <div class="info-card-label">Birthstone</div>
+              </div>
+              <div class="info-card">
+                <div class="info-card-icon">🌸</div>
+                <div class="info-card-value" id="birth-flower">—</div>
+                <div class="info-card-label">Birth Flower</div>
+              </div>
+              <div class="info-card">
+                <div class="info-card-icon">👶</div>
+                <div class="info-card-value" id="generation">—</div>
+                <div class="info-card-label">Generation</div>
+              </div>
+              <div class="info-card">
+                <div class="info-card-icon">🔢</div>
+                <div class="info-card-value" id="life-path-number">—</div>
+                <div class="info-card-label">Life Path #</div>
+              </div>
+            </div>
+
+            <!-- Life Stats -->
+            <div class="section-title">🫀 Life Statistics (Estimated)</div>
+            <div class="life-stats-grid">
+              <div class="stat-card">
+                <div class="stat-icon">💓</div>
+                <div class="stat-info">
+                  <div class="stat-value" id="heartbeats">0</div>
+                  <div class="stat-label">Heartbeats</div>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon">🌬️</div>
+                <div class="stat-info">
+                  <div class="stat-value" id="breaths">0</div>
+                  <div class="stat-label">Breaths Taken</div>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon">😴</div>
+                <div class="stat-info">
+                  <div class="stat-value" id="sleep-hours">0</div>
+                  <div class="stat-label">Hours Slept</div>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon">🍽️</div>
+                <div class="stat-info">
+                  <div class="stat-value" id="meals">0</div>
+                  <div class="stat-label">Meals Eaten</div>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon">🌕</div>
+                <div class="stat-info">
+                  <div class="stat-value" id="full-moons">0</div>
+                  <div class="stat-label">Full Moons Seen</div>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon">🌍</div>
+                <div class="stat-info">
+                  <div class="stat-value" id="sun-distance">0</div>
+                  <div class="stat-label">Km Around Sun</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Planet Ages -->
+            <div class="section-title">🪐 Your Age on Other Planets</div>
+            <div class="planet-grid">
+              <div class="planet-card">
+                <div class="planet-emoji">☿️</div>
+                <div class="planet-name">Mercury</div>
+                <div class="planet-age" id="planet-mercury">0</div>
+                <div class="planet-unit">years</div>
+              </div>
+              <div class="planet-card">
+                <div class="planet-emoji">♀️</div>
+                <div class="planet-name">Venus</div>
+                <div class="planet-age" id="planet-venus">0</div>
+                <div class="planet-unit">years</div>
+              </div>
+              <div class="planet-card">
+                <div class="planet-emoji">♂️</div>
+                <div class="planet-name">Mars</div>
+                <div class="planet-age" id="planet-mars">0</div>
+                <div class="planet-unit">years</div>
+              </div>
+              <div class="planet-card">
+                <div class="planet-emoji">♃</div>
+                <div class="planet-name">Jupiter</div>
+                <div class="planet-age" id="planet-jupiter">0</div>
+                <div class="planet-unit">years</div>
+              </div>
+              <div class="planet-card">
+                <div class="planet-emoji">♄</div>
+                <div class="planet-name">Saturn</div>
+                <div class="planet-age" id="planet-saturn">0</div>
+                <div class="planet-unit">years</div>
+              </div>
+            </div>
+
+            <!-- Milestones -->
+            <div class="milestones-section">
+              <div class="section-title">🏆 Life Milestones</div>
+              <div class="milestones-grid" id="milestones-container">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+
+            <!-- Life Progress -->
+            <div class="life-progress">
+              <div class="section-title">📊 Life Progress (Based on Avg. 80 Years)</div>
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="life-progress-bar" style="width: 0%;"></div>
+              </div>
+              <div class="progress-text" id="life-progress-text">
+                You have lived <span>0%</span> of an average lifespan
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="action-buttons">
+              <button class="action-btn share-btn" id="share-btn" type="button" aria-label="Share your age results">
+                📤 Share Results
+              </button>
+              <button class="action-btn download-btn" id="download-btn" type="button" aria-label="Download age card as image">
+                📥 Download Card
+              </button>
+            </div>
+
+          </div><!-- /results-content -->
+        </div><!-- /results-panel -->
+
+      </section><!-- /calculator-section -->
+
+      <!-- ── Ad Slot: Between Content ── -->
+      <!-- ADSENSE SLOT 2: In-Content (Responsive)
+           Replace this div's content with your AdSense ad code -->
+      <div class="ad-slot ad-between" id="ad-between" aria-hidden="true">
+        <!-- Ad Space -->
+      </div>
+
+      <!-- ══════════════════════════════════
+           AGE DIFFERENCE CALCULATOR
+           ══════════════════════════════════ -->
+      <section class="glass-card age-diff-section reveal" aria-label="Age Difference Calculator">
+        <div class="section-header">
+          <h2>👫 Age Difference Calculator</h2>
+          <p style="color: var(--text-secondary); font-size: 0.9rem;">Compare the ages of two people</p>
+        </div>
+        <div class="age-diff-form">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="dob1-diff-input" class="form-label">Person 1 DOB</label>
+            <input type="date" id="dob1-diff-input" class="form-input" aria-label="First person date of birth">
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="dob2-diff-input" class="form-label">Person 2 DOB</label>
+            <input type="date" id="dob2-diff-input" class="form-input" aria-label="Second person date of birth">
+          </div>
+          <button id="age-diff-btn" class="neon-btn" type="button" style="height: fit-content;">⚡ Compare</button>
+        </div>
+        <div class="age-diff-result" id="age-diff-result"></div>
+      </section>
+
+      <!-- ══════════════════════════════════
+           SEO CONTENT
+           ══════════════════════════════════ -->
+      <section class="glass-card seo-content reveal" aria-label="About Age Calculator">
+        <h2>How to Calculate Your Exact Age</h2>
+        <p>
+          Calculating your exact age might seem simple, but it involves careful consideration of years, months, and individual days. The <strong>Safa Age Calculator</strong> is a free online tool that computes your precise chronological age from your date of birth to any given date — whether it's today or a specific date in the past or future.
+        </p>
+
+        <h3>What is Chronological Age?</h3>
+        <p>
+          Chronological age refers to the amount of time that has elapsed since a person's birth. It is typically expressed in years, months, and days. Unlike biological age (which measures physiological health), chronological age is a fixed, objective measure based solely on your date of birth. This is the most commonly used measure of age in legal documents, school admissions, retirement planning, and medical contexts.
+        </p>
+
+        <h3>How Does This Age Calculator Work?</h3>
+        <p>
+          Our calculator uses a precise algorithm that accounts for varying month lengths (28, 29, 30, or 31 days) and leap years. Here's how it works:
+        </p>
+        <ul>
+          <li><strong>Step 1:</strong> Enter your date of birth using the calendar picker or by typing it directly.</li>
+          <li><strong>Step 2:</strong> Optionally, select a custom "Age as of" date. By default, it uses today's date.</li>
+          <li><strong>Step 3:</strong> Click "Calculate Age" to see your detailed results.</li>
+        </ul>
+        <p>
+          The results include your age in years, months, and days, as well as total breakdowns in months, weeks, days, hours, minutes, and seconds. A live second counter shows your age ticking in real time!
+        </p>
+
+        <h3>Extra Features You'll Discover</h3>
+        <p>
+          Beyond basic age calculation, the Safa Age Calculator reveals fascinating details about your birth:
+        </p>
+        <ul>
+          <li><strong>Zodiac Signs:</strong> Your Western zodiac (sun sign) and Chinese zodiac animal.</li>
+          <li><strong>Birthstone &amp; Birth Flower:</strong> The gemstone and flower associated with your birth month.</li>
+          <li><strong>Day of Birth:</strong> What day of the week you were born on.</li>
+          <li><strong>Generation:</strong> Whether you're Gen Z, Millennial, Gen X, or another generation.</li>
+          <li><strong>Life Path Number:</strong> Your numerology life path number based on your date of birth.</li>
+          <li><strong>Life Statistics:</strong> Estimated heartbeats, breaths taken, hours slept, and meals eaten.</li>
+          <li><strong>Planet Ages:</strong> Your age on Mercury, Venus, Mars, Jupiter, and Saturn.</li>
+          <li><strong>Birthday Countdown:</strong> A live countdown to your next birthday.</li>
+          <li><strong>Milestones:</strong> Fun milestones like 10,000 days old or 1 billion seconds alive.</li>
+        </ul>
+
+        <h3>Common Uses for Age Calculators</h3>
+        <p>
+          Age calculators are used for many practical purposes including school admission eligibility (determining if a child meets the age cutoff), retirement planning, insurance applications, legal age verification, medical assessments, and simply satisfying curiosity about your exact age in various units of time.
+        </p>
+
+        <h3>Age Difference Calculator</h3>
+        <p>
+          Our age difference tool lets you compare the ages of two people. This is useful for determining the exact age gap between partners, siblings, friends, or any two individuals. Simply enter both dates of birth and the calculator will show the precise difference.
+        </p>
+      </section>
+
+      <!-- ── Ad Slot: Before FAQ ── -->
+      <!-- ADSENSE SLOT 3: Before FAQ (728x90)
+           Replace this div's content with your AdSense ad code -->
+      <div class="ad-slot" id="ad-before-faq" aria-hidden="true">
+        <!-- Ad Space -->
+      </div>
+
+      <!-- ══════════════════════════════════
+           FAQ
+           ══════════════════════════════════ -->
+      <section class="glass-card faq-section reveal" id="faq-section" aria-label="Frequently Asked Questions">
+        <h2>❓ Frequently Asked Questions</h2>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>How do I calculate my exact age in years, months, and days?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Simply enter your date of birth in the calculator above and click "Calculate Age." The Safa Age Calculator will instantly show your exact age broken down into years, months, and days — plus total months, weeks, days, hours, minutes, and seconds.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Does this calculator account for leap years?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Yes! Our calculator precisely handles leap years (years divisible by 4, except centuries not divisible by 400). If you were born on February 29, the calculator correctly computes your age and recognizes your special birthday.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Can I calculate my age as of a past or future date?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Absolutely! Use the "Age as of" field to select any date. For example, you can find out how old you were on a specific date in the past, or how old you will be on a future date. By default, the calculator uses today's date.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>How many days old am I?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>After entering your date of birth, check the "Total Age Breakdown" section. You'll see your exact age in total days, along with weeks, hours, minutes, and seconds. The live counter even shows seconds ticking in real time!</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>What is my zodiac sign?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Your zodiac sign (also called sun sign) is determined by your birth date. The calculator shows both your Western zodiac sign (Aries, Taurus, Gemini, etc.) and your Chinese zodiac animal (Rat, Ox, Tiger, etc.) based on your birth year.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>How does the birthday countdown work?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Once you calculate your age, the birthday countdown shows a live timer counting down to your next birthday in days, hours, minutes, and seconds. If today is your birthday, it will display a special birthday message!</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>What are planet ages?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Each planet in our solar system has a different orbital period (the time it takes to go around the Sun). Your "planet age" shows how many years old you would be on Mercury, Venus, Mars, Jupiter, and Saturn. For example, on Mercury you'd be much older since Mercury years are shorter!</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>How accurate are the life statistics?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>The life statistics (heartbeats, breaths, sleep hours, meals) are estimates based on widely accepted medical averages. For example, the average resting heart rate is about 72 beats per minute, and the average person breathes about 16 times per minute. Actual values vary by individual.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Ad Slot: Footer ── -->
+      <!-- ADSENSE SLOT 4: Footer Leaderboard (728x90)
+           Replace this div's content with your AdSense ad code -->
+      <div class="ad-slot ad-footer" id="ad-footer" aria-hidden="true">
+        <!-- Ad Space -->
+      </div>
+
+    </div><!-- /container -->
+  </main>
+
+  <!-- ══════════════════════════════════
+       FOOTER
+       ══════════════════════════════════ -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-brand">SAFA AGE CALCULATOR</div>
+      <p>&copy; 2026 Safa Age Calculator. Free online age calculator tool.</p>
+      <p style="margin-top: 0.5rem;">
+        <a href="#calculator">Age Calculator</a> &middot;
+        <a href="#faq-section">FAQ</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- ── JavaScript ── -->
+  <script src="/script.js"></script>
+</body>
+</html>
